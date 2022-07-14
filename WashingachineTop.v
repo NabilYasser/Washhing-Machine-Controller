@@ -1,3 +1,4 @@
+//*This module is responsbole for interconnecting the diffrent units
 module WashingachineTop (
     
     input wire clk_Top,
@@ -6,13 +7,15 @@ module WashingachineTop (
     input wire coin_in_Top,
     input wire double_wash_Top,
     input wire timer_pause_Top,
+
+    output wire [2:0] CurrentState_Top,
     output wire wash_done_Top
 
 );
-wire Counter_RST_Top,StateFinish_Top;
+wire Counter_RST_Top,StateFinish_Top,CounterStop_Top;
 wire [31:0] Counts_Top;
 
-wire [2:0] CurrentState_Top;
+///********wire [2:0] CurrentState_Top;
 wire Counter_RST_From_FSM_Top;
 
 assign Counter_RST_Top=(rst_n_Top & Counter_RST_From_FSM_Top);
@@ -21,6 +24,7 @@ assign Counter_RST_Top=(rst_n_Top & Counter_RST_From_FSM_Top);
     	.Counter_RST (Counter_RST_Top ),
         .clk         (clk_Top         ),
         .Counts      (Counts_Top      ),
+        .CounterStop (CounterStop_Top ),
         .StateFinish (StateFinish_Top )
     );
 
@@ -36,6 +40,7 @@ assign Counter_RST_Top=(rst_n_Top & Counter_RST_From_FSM_Top);
         .StateFinish          (StateFinish_Top          ),
         .CurrentState         (CurrentState_Top         ),
         .Counter_RST_From_FSM (Counter_RST_From_FSM_Top ),
+        .CounterStop          (CounterStop_Top          ),
         .wash_done            (wash_done_Top            )
     );
 
