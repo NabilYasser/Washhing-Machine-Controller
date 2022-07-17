@@ -1,5 +1,8 @@
 //*This module is responsbole for interconnecting the diffrent units
-module WashingachineTop (
+module WashingachineTop #(parameter  Min2_frq1=32'd118000000 ,Min2_frq2=32'd238000000,Min2_frq3=32'd478000000,Min2_frq4=32'd958000000,
+                        Min5_frq1=32'd298000000 ,Min5_frq2=32'd598000000,Min5_frq3=32'd1198000000,Min5_frq4=32'd2398000000,
+                        Min1_frq1=32'd58000000  ,Min1_frq2=32'd118000000,Min1_frq3=32'd238000000,Min1_frq4=32'd478000000
+) (
     
     input wire clk_Top,
     input wire rst_n_Top,
@@ -45,11 +48,28 @@ assign Counter_RST_Top=(rst_n_Top & Counter_RST_From_FSM_Top);
     );
 
     //Instantiating the module ROM.
-    ROM u_ROM(
+    ROM #(
+        .Min2_frq1 (Min2_frq1 ),
+        .Min2_frq2 (Min2_frq2 ),
+        .Min2_frq3 (Min2_frq3 ),
+        .Min2_frq4 (Min2_frq4 ),
+        .Min5_frq1 (Min5_frq1 ),
+        .Min5_frq2 (Min5_frq2 ),
+        .Min5_frq3 (Min5_frq3 ),
+        .Min5_frq4 (Min5_frq4 ),
+        .Min1_frq1 (Min1_frq1 ),
+        .Min1_frq2 (Min1_frq2 ),
+        .Min1_frq3 (Min1_frq3 ),
+        .Min1_frq4 (Min1_frq4 )
+    )
+    u_ROM(
     	.clk_freq            (clk_freq_Top            ),
         .StateFromController (CurrentState_Top ),
         .CountsNum           (Counts_Top           )
     );
+    
+
+
     
     
     

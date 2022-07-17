@@ -15,6 +15,14 @@ module Washingachine_tb  ();
     parameter Clk_Frq_3 = Clk_Frq_1/4;
     parameter Clk_Frq_4 = Clk_Frq_1/8;
     reg [9:0] Selected_Clock;
+    parameter  Min2_frq1=32'd118 ,Min2_frq2=32'd238,Min2_frq3=32'd478,Min2_frq4=32'd958,
+                Min5_frq1=32'd298 ,Min5_frq2=32'd598,Min5_frq3=32'd1198,Min5_frq4=32'd2398,
+                Min1_frq1=32'd58  ,Min1_frq2=32'd118,Min1_frq3=32'd238,Min1_frq4=32'd478;
+
+
+
+
+
 
 
     initial begin
@@ -67,8 +75,9 @@ module Washingachine_tb  ();
         end
 
         //*No coin is deposited 
-        rst_n_tb=1'b1;
         coin_in_tb=1'b0;
+        #Selected_Clock;
+        rst_n_tb=1'b1;
         repeat(2)#Selected_Clock;
         $display("Test Case #2 No coin inserted");
         if (wash_done_tb) begin
@@ -131,24 +140,33 @@ module Washingachine_tb  ();
 
         $stop;
 
-
-
-
-
     end
 
+WashingachineTop #(
+    .Min2_frq1 (Min2_frq1 ),
+    .Min2_frq2 (Min2_frq2 ),
+    .Min2_frq3 (Min2_frq3 ),
+    .Min2_frq4 (Min2_frq4 ),
+    .Min5_frq1 (Min5_frq1 ),
+    .Min5_frq2 (Min5_frq2 ),
+    .Min5_frq3 (Min5_frq3 ),
+    .Min5_frq4 (Min5_frq4 ),
+    .Min1_frq1 (Min1_frq1 ),
+    .Min1_frq2 (Min1_frq2 ),
+    .Min1_frq3 (Min1_frq3 ),
+    .Min1_frq4 (Min1_frq4 )
+)
+u_WashingachineTop(
+    .clk_Top         (clk_tb         ),
+    .rst_n_Top       (rst_n_tb       ),
+    .clk_freq_Top    (clk_freq_tb    ),
+    .coin_in_Top     (coin_in_tb     ),
+    .double_wash_Top (double_wash_tb ),
+    .timer_pause_Top (timer_pause_tb ),
+    .CurrentState_Top(CurrentState_tb),
+    .wash_done_Top   (wash_done_tb   )
+);
 
-
-    WashingachineTop u_WashingachineTop(
-    	.clk_Top         (clk_tb         ),
-        .rst_n_Top       (rst_n_tb       ),
-        .clk_freq_Top    (clk_freq_tb    ),
-        .coin_in_Top     (coin_in_tb     ),
-        .double_wash_Top (double_wash_tb ),
-        .timer_pause_Top (timer_pause_tb ),
-        .CurrentState_Top(CurrentState_tb),
-        .wash_done_Top   (wash_done_tb   )
-    );
 
 
     
